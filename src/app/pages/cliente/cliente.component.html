@@ -1,0 +1,115 @@
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-9 offset-md-2">
+      <div class="card">
+        <div class="card-body text-center bg-info text-light">
+          <h3>Clientes</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="actions" class="py-4 mb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3 offset-md-2">
+        <a href="#" class="btn btn-primary" data-toggle="modal" data-target="#agregarCliente" #btnAbrir>
+          <i class="icon ion-md-person-add mr-2"></i>Agregar Cliente
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 offset-md-2">
+        <div class="card">
+          <div class="card-header text-center">
+            <h4>Listado de Clientes</h4>
+          </div>
+          <table class="table table-striped">
+            <thead class="thead-dark">
+              <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let cliente of clientes; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ cliente.name}} {{ cliente.lastName }}</td>
+                <td>
+                  <i (click)="editCliente(cliente)" class="icon ion-md-create mr-5 "></i>
+                  <i (click)="deleteCliente(cliente.id)" class="icon ion-md-trash"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="card text-center bg-success text-white mb-3">
+          <div class="card-body">
+            <h3>Total Clientes</h3>
+            <h4 class="display-4">
+              <i class="icon ion-md-people"></i>
+              {{ clientes?.length }}
+            </h4>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!--agregar cliente ventana modal-->
+<div class="modal fade" id="agregarCliente">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header bg-info text-white">
+        <h5 class="modal-title">{{accion}} Cliente</h5>
+        <button type="button" class="close" data-dismiss="modal" #btnCerrar>
+          <span>&times;</span>
+        </button>
+      </div>
+
+
+      <form (ngSubmit)="guardarCliente()" [formGroup]="clienteForm">
+        <div class="modal-body">
+          <div class="form-group">
+            <label for="nombre">Nombre:</label>
+            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre del Cliente"
+              formControlName="name" required minlength="2"
+              [ngClass]="{'is-invalid': this.clienteForm.get('name')?.errors && this.clienteForm.get('name')?.touched}" />
+            <div [hidden]="!this.clienteForm.get('name').hasError('required')" class="invalid-feedback">
+              Nombre Requerido
+            </div>
+            <div [hidden]="!this.clienteForm.get('name').hasError('minlength')" class="invalid-feedback">
+              Debe contener al menos 2 caracteres
+            </div>
+          </div>
+          <div class="form-group">`
+            <label for="apellido">Apellido:</label>
+            <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Apellido del Cliente"
+              formControlName="lastName" required minlength="2"
+              [ngClass]="{'is-invalid': this.clienteForm.get('lastName')?.errors && this.clienteForm.get('lastName')?.touched}" />
+            <div [hidden]="!this.clienteForm.get('lastName').hasError('required')" class="invalid-feedback">
+              Apellido Requerido
+            </div>
+            <div [hidden]="!this.clienteForm.get('lastName').hasError('minlength')" class="invalid-feedback">
+              Debe contener al menos 2 caracteres
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button [disabled]="this.clienteForm.invalid" type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
