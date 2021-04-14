@@ -12,8 +12,8 @@ export class ClienteService {
 
   constructor(private http: HttpClient) {}
 
-  getClientes(): Observable<any> {
-    return this.http.get<Cliente>(this.apiUrl + this.api);
+  getClientes(): Observable<Cliente[]> {
+    return this.http.get<Cliente[]>(this.apiUrl + this.api);
   }
 
   saveCliente(cliente: Cliente): Observable<Cliente> {
